@@ -23,6 +23,9 @@ def insert_request_vehicle(db: Session, request: schemas.RequestVehicle):
     db.refresh(db_request)
     return db_request
 
+def get_request_vehicle(db: Session, id: int):
+    return db.query(models.RequestVehicle).filter(models.RequestVehicle.Id == id).first()
+
 def get_all_request_vehicle(db: Session):
     return db.query(models.RequestVehicle).all()
 

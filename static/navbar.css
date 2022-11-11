@@ -1,0 +1,10 @@
+.nav-link {
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+ }
+ 
+ .nav-link:hover, .active {
+     color:white!important;
+     text-decoration: underline;
+ }
