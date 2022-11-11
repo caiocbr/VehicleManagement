@@ -1,12 +1,20 @@
 <html>
     <body class="body">
-    <p>
+        <nav class="navbar navbar-dark bg-dark" style="height: 120px;">
+            <div style="display: inline-flex; margin-left: 20px; font-size: 22;">
+                    <img src="{{ url_for('static', path='/logo.png') }}" style="width: 60px; margin-right: 60px;">
+                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="#">Pedido de Viatura</a>
+                    <a class="nav-link" href="#">Meus Pedidos</a>
+                    <a class="nav-link" href="#">Viaturas</a>
+                    <a class="nav-link" href="#">Cadastro de Viatura</a>
+              </div>
+        </nav>
+    <p>    
     <form action="/vehicles/sigin" method="post">
-    
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
 
-        <legend>SOLICITAÇÃO DE VIATURA</legend>
+
+        <legend>Solicitação de Viatura</legend>
         <strong>
             Insira as informações solicitadas abaixo e aperte no botão ao final do formulário para consultar as viaturas disponíveis para o dia e hora solicitados.
         </strong>
@@ -107,25 +115,18 @@
                     <label for="exampleFormControlTextarea1">Missão e Observações</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
                   </div>
-
-                
-
-
-                
-                
-                
-                
-                
-
-                               
+                 
         
         
             <div class="button">
-            <button type="button" class="btn btn-success">Consultar Viaturas</button>
+            <button type="submit" class="btn btn-success">Consultar Viaturas</button>
         </div>
     </form>
     </p>
     </body>
 </html>
 
-
+<link href="{{ url_for('static', path='/navbar.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
