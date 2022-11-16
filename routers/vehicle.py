@@ -5,6 +5,7 @@ from sql_app.database import SessionLocal, engine, get_db
 from sqlalchemy.orm import Session
 from sql_app import schemas, crud
 import aux_functions
+from datetime import date, datetime
 
 router = APIRouter(prefix="/vehicle")
 
@@ -30,6 +31,9 @@ def read_item(db: Session = Depends(get_db)):
 def read_item(data: schemas.RequestDate, db: Session = Depends(get_db)):
     vehicles = crud.get_all_active_vehicle(db)
     response = []
+
+    if datetime.now().strftime('%H:%M') > "14:00" and (data.DateSaida - date.today()).days <= 1:
+        return response
 
     for vehicle in vehicles:
         if vehicle.Tipo == data.TipoViatura and int(vehicle.QtdPassageiros) >= data.QtdPassageiros:
