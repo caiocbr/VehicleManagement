@@ -10,7 +10,7 @@ form {
     margin-top: 50px;
 }
 form div + div {
-    margin-top: 1em;
+    margin-top:1em;
 }
 label {
     /*Para ter certeza que todas as labels tem o mesmo tamanho e estão propriamente alinhadas */
@@ -72,6 +72,7 @@ legend {
     background-repeat:no-repeat;
     background-attachment: fixed;
     background-position: center;
+    
 }
 .form-row{
     display: block ruby;
