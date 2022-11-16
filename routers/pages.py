@@ -129,7 +129,7 @@ async def view_solicitation_details(id: int, request: Request, db: Session = Dep
 
     solicitation = crud.get_request_vehicle(db, id)
 
-    if solicitation.DataRetorno > date.today():
+    if solicitation.DataRetorno < date.today():
         role = "Regular"
     else:
         role = user.Role
