@@ -4,26 +4,39 @@
     </head>
     <body>
         <nav class="navbar navbar-dark bg-dark" style="height: 150px;">
-            <div style="display: inline-flex; margin-left: 20px; font-size: 22;">
-                    <img src="{{ url_for('static', path='/logo.png') }}" style="width: 80px; margin-right: 60px;">
-                    <a class="nav-link" href="#">Home</a>
-                    <a class="nav-link" href="#">Pedido de Viatura</a>
-                    <a class="nav-link" href="#">Meus Pedidos</a>
-                    <a class="nav-link" href="#">Viaturas</a>
-                    <a class="nav-link" href="#">Cadastro de Viatura</a>
-              </div>
+            <div style="display: inline-flex; margin-left: 20px; font-size: 22; font-family: century-gothic;">
+                <img src="{{ url_for('static', path='/logo.png') }}" style="width: 60px; margin-right: 60px;">
+                <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
+                <a class="nav-link" href="http://localhost:8000/pages/request/vehicles">Pedido de Viatura</a>
+                <a class="nav-link" href="http://localhost:8000/pages/solicitations">Meus Pedidos</a>
+                <a class="nav-link" href="#">Viaturas</a>
+                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+            </div>
         </nav>
-        <div>
+        
+        <div class="solicitation">
             <li>{{ solicitation.Militar }}</li>
             <li>{{ solicitation.Sec }}</li>
             <li>{{ solicitation.ChefeViatura }}</li>
-            <li>{{ solicitation.TipoViatura }}</li>
+            <li>{{ solicitation.ModeloViatura }}</li>
             <li>{{ solicitation.QtdPassageiros }}</li>
             <li>{{ solicitation.DataSaida }}</li>
             <li>{{ solicitation.Local }}</li>
             <li>{{ solicitation.Obs }}</li>
             <li>{{ solicitation.Destino }}</li>
+            <li>{{ solicitation.Status }}</li>
         </div>
+
+        {%if solicitation.Status == "Pendente" %}
+            {% set AcceptAction = 'http://localhost:8000/pages/solicitation/details/' + solicitation.Id|string  + '/Aprovado' %}
+            {% set RejectAction = 'http://localhost:8000/pages/solicitation/details/' + solicitation.Id|string  + '/Rejeitado' %}
+            <form action="{{ AcceptAction }}" method="post">
+                <button type="submit">Aceitar</button>
+            </form>
+            <form action="{{ RejectAction }}" method="post">
+                <button type="submit">Rejeitar</button>
+            </form>
+        {% endif %}
     </body>
 </html>
 

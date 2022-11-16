@@ -11,14 +11,16 @@ class RequestVehicle(Base):
     Militar = Column(String, nullable=False)
     Sec = Column(String, nullable=False)
     ChefeViatura = Column(String, nullable=False)
-    TipoViatura = Column(String, nullable=False)
+    Viatura = Column(String, nullable=False)
     QtdPassageiros = Column(String, nullable=False)
     DataSaida = Column(String, nullable=False)
+    HorarioSaida = Column(String, nullable=False)
     Local = Column(String, nullable=False)
     Obs = Column(String, nullable=False)
     Destino = Column(String, nullable=False)
     DataRetorno = Column(String, nullable=False)
     Status = Column(String, nullable=False)
+    HorarioRetorno = Column(String, nullable=False)
 
 class Vehicle(Base):
     __tablename__ = "Vehicles"
@@ -28,6 +30,9 @@ class Vehicle(Base):
     Modelo = Column(String, nullable=False)
     QtdPassageiros = Column(String, nullable=False)
     Status = Column(String, nullable=False)
+    Tipo = Column(String, nullable=False)
+    T4x4 = Column(String, nullable=False)
+    Obs = Column(String, nullable=False)
 
 class User(Base):
     __tablename__ = "Users"

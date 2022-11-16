@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.body {
+    background-image: url("FortePrincipeDaBeira.jpg");
+    background-size: 100%;
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.line {
+    border-right: 2px solid white;
+    color: white;
+    font-size: 30px;
+    margin-top: 300px;
+}
+
+.lineBottom {
+    border-right: 2px solid white;
+    color: white;
+    font-size: 30px;
+}
+
+.textDiv {
+    text-align: center;
+}

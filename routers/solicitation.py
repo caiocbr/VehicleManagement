@@ -1,5 +1,5 @@
 from typing import Union, List
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi import Depends, Request, HTTPException, status, Response
 from sql_app.database import SessionLocal, engine, get_db
 from sqlalchemy.orm import Session
@@ -10,7 +10,7 @@ router = APIRouter(prefix="/solicitation")
 
 # Pedido de veículo
 @router.post("/", status_code=200)
-def solicitation_vehicle(request: schemas.RequestVehicle, db: Session = Depends(get_db)):
+def solicitation_vehicle(request: schemas.RequestVehicleForm = Depends(), db: Session = Depends(get_db)):
     db_request = crud.insert_request_vehicle(db, request)
     if db_request == None:
         return HTTPException(status_code=500)

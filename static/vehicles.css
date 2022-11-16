@@ -1,0 +1,11 @@
+.vehicle {
+    background-color: #d4d4d4;
+    border-radius: 45px;
+    width: 400px;
+    height: 250px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.container {
+    margin-top: 100px;
+}

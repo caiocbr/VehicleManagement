@@ -1,12 +1,13 @@
 <html>
     <body class="body2">
         <p>
-            <form action="/user/login" method="post">
+            <form action="/pages/login" method="post">
 
                 <p>
                 <legend>LOGIN</legend>    
                 </p>
-            
+                
+                <p id="WarningText">{{ result }}</p>
                 <div class="form-group">
                   <label for="exampleInputUser">Usuário</label>
                   <input type="text" name="username" class="form-control" id="exampleInputUser" placeholder="Insira o usuário">

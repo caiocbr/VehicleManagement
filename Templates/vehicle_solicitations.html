@@ -4,21 +4,22 @@
     </head>
     <body>
         <nav class="navbar navbar-dark bg-dark" style="height: 150px;">
-            <div style="display: inline-flex; margin-left: 20px; font-size: 22;">
-                    <img src="{{ url_for('static', path='/logo.png') }}" style="width: 80px; margin-right: 60px;">
-                    <a class="nav-link" href="#">Home</a>
-                    <a class="nav-link" href="#">Pedido de Viatura</a>
-                    <a class="nav-link" href="#">Meus Pedidos</a>
-                    <a class="nav-link" href="#">Viaturas</a>
-                    <a class="nav-link" href="#">Cadastro de Viatura</a>
-              </div>
+            <div style="display: inline-flex; margin-left: 20px; font-size: 22; font-family: century-gothic;">
+                <img src="{{ url_for('static', path='/logo.png') }}" style="width: 60px; margin-right: 60px;">
+                <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
+                <a class="nav-link" href="http://localhost:8000/pages/request/vehicles">Pedido de Viatura</a>
+                <a class="nav-link" href="http://localhost:8000/pages/solicitations">Meus Pedidos</a>
+                <a class="nav-link" href="#">Viaturas</a>
+                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+            </div>
         </nav>
+
         <table class="table">
             <thead style="text-align: center;">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Seção</th>
                     <th scope="col">Militar</th>
+                    <th scope="col">Seção</th>
                     <th scope="col">Chefe de Viatura</th>
                     <th scope="col">Tipo de Viatura</th>
                     <th scope="col">Local</th>
@@ -31,7 +32,7 @@
             <tbody>
                 {%- set ns = namespace(cnt=1) -%}
                 {% for solicitation in solicitations %}
-                    {% if solicitation.Status == "Resolvido" %}
+                    {% if solicitation.Status == "Aprovado" %}
                         <tr style="text-align: center; background-color: #9ce985;">
                     {% elif solicitation.Status == "Rejeitado" %}
                         <tr style="text-align: center; background-color: #e98585;">
@@ -42,7 +43,7 @@
                         <td>{{ solicitation.Militar }}</td>
                         <td>{{ solicitation.Sec }}</td>
                         <td>{{ solicitation.ChefeViatura }}</td>
-                        <td>{{ solicitation.TipoViatura }}</td>
+                        <td>{{ solicitation.ModeloViatura }}</td>
                         <td>{{ solicitation.Local }}</td>
                         <td>{{ solicitation.DataSaida }}</td>
                         <td>{{ solicitation.DataRetorno }}</td>

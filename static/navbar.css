@@ -2,9 +2,10 @@
     color: white;
     margin-top: auto;
     margin-bottom: auto;
+    font-family: century-gothic, sans-serif;
  }
  
  .nav-link:hover, .active {
      color:white!important;
-     text-decoration: underline;
+     text-decoration: underline!important;
 }
