@@ -9,7 +9,7 @@ async function ClickButton(){
     horarioRetorno = document.getElementById("horaRet").value;
 
     var body = {"DataSaida": dataSaida, "HorarioSaida": horarioSaida, "DataRetorno": dataRetorno, "HorarioRetorno": horarioRetorno};
-    response = await fetch('http://localhost:8000/vehicle/query', {
+    response = await fetch('http://127.0.0.1:8000/vehicle/query', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -60,7 +60,7 @@ async function ClickButton(){
             label.appendChild(node);
             select = document.createElement("select");
             select.className = "form-control form-control-sm";
-            select.setAttribute("name", "ModeloViatura")
+            select.setAttribute("name", "Viatura")
 
             for(var i = 0; i < vehicles.length; i++){
                 para = document.createElement("option");

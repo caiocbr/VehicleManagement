@@ -11,6 +11,7 @@ router = APIRouter(prefix="/solicitation")
 # Pedido de veículo
 @router.post("/", status_code=200)
 def solicitation_vehicle(request: schemas.RequestVehicleForm = Depends(), db: Session = Depends(get_db)):
+    print(request.HorarioSaida)
     db_request = crud.insert_request_vehicle(db, request)
     if db_request == None:
         return HTTPException(status_code=500)

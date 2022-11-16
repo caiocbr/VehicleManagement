@@ -9,13 +9,15 @@ def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm):
         Militar = request.Militar,
         Sec = request.Sec,
         ChefeViatura = request.ChefeViatura,
-        Viatura = request.ModeloViatura,
+        Viatura = request.Viatura,
         QtdPassageiros = request.QtdPassageiros,
         DataSaida = request.DataSaida,
+        HorarioSaida = request.HorarioSaida,
         Local = request.Local,
         Obs = request.Obs,
         Destino = request.Destino,
         DataRetorno = request.DataRetorno,
+        HorarioRetorno = request.HorarioRetorno,
         Status = "Pendente"
     )
     db.add(db_request)
