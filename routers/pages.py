@@ -149,7 +149,7 @@ async def view_solicitation_details(id: int, status: str, request: Request, db: 
 
     if status == "Aprovado":
         actualSolicitation = crud.get_request_vehicle(db, id)
-        solicitations = crud.get_all_requests_by_vehicle_id(db, solicitation.Viatura)
+        solicitations = crud.get_all_requests_by_vehicle_id(db, actualSolicitation.Viatura)
         
         for solicitation in solicitations:
             if solicitation.Id != actualSolicitation.Id and not \
