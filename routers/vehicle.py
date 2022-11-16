@@ -32,7 +32,7 @@ def read_item(data: schemas.RequestDate, db: Session = Depends(get_db)):
     vehicles = crud.get_all_active_vehicle(db)
     response = []
 
-    if datetime.now().strftime('%H:%M') > "14:00" and (data.DateSaida - date.today()).days <= 1:
+    if datetime.now().strftime('%H:%M') > "14:00" and (data.DataSaida - date.today()).days <= 1:
         return response
 
     for vehicle in vehicles:
