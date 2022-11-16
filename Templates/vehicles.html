@@ -11,7 +11,9 @@
             <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
         </div>
     </nav>
-
+    
+    <div class="body">
+    
     <div class="filter">
 
     </div>
@@ -21,18 +23,22 @@
             {% for vehicle in vehicles %}
             <div class="col-4">
                 <div class="vehicle">
-                    <p>{{ vehicle.Modelo }}</p>
-                    <p>{{ vehicle.Placa }}</p>
-                    <p>{{ vehicle.T4x4 }}</p>
-                    <p>{{ vehicle.Tipo }}</p>
+                    {% if vehicle.Status == "Ativo" %}
+                        <img src="{{ url_for('static', path='/ativo.png') }}" style="width: 40px; margin-left: 240px;margin-top: 5px; position: absolute;">
+                    {% else %}
+                        <img src="{{ url_for('static', path='/inativo.png') }}" style="width: 40px; margin-left: 240px;margin-top: 5px; position: absolute;">
+                    {%  endif %}    
+                    <p class="model">Modelo: {{ vehicle.Modelo }}</p>
+                    <p class="informations">Placa: {{ vehicle.Placa }}</p>
+                    <p class="informations">Tipo: {{ vehicle.Tipo }}</p>
                     {% set vehicleUrl = 'http://localhost:8000/pages/vehicle/details/' + vehicle.Placa %}
-                    <a href="{{ vehicleUrl }}">Expandir</a>
+                    <a class="btn btn-dark  " href="{{ vehicleUrl }}" role="button">Expandir</a>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-
+    </div>
 </body>
 
 </html>
