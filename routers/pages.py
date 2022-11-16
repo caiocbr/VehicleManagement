@@ -49,6 +49,12 @@ async def authentication(request: Request, response: Response, username: Union[s
     response.set_cookie(key="access_token", value=access_token)
     return response
 
+@router.get("/logout", response_class=HTMLResponse)
+async def logout(response: Response):
+    response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+    response.delete_cookie("access_token")
+    return response
+
 @router.get("/signup/vehicles", response_class=HTMLResponse)
 async def signup_vehicles(request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
@@ -60,16 +66,16 @@ async def signup_vehicles(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("cadastro_vtr.html", {"request": request, "result": ""})
 
 @router.post("/signup/vehicles", response_class=HTMLResponse)
-async def signup_vehicles_bd(request: schemas.VehicleForm = Depends(), db: Session = Depends(get_db)):
+async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleForm = Depends(), db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
         response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
-    vehicle = crud.insert_vehicle(db, request)
+    vehicle = crud.insert_vehicle(db, requestVehicle)
     if vehicle == None:
-        return templates.TemplateResponse("cadastro_vtr.html", {"request": request, "result": "Erro no cadastro de veículo!"})
+        return templates.TemplateResponse("cadastro_vtr.html", {"request": requestVehicle, "result": "Erro no cadastro de veículo!"})
     
     response = RedirectResponse("http://localhost:8000/pages/home", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
