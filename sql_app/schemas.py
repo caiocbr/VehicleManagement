@@ -102,7 +102,7 @@ class VehicleForm:
         Modelo: str = Form(...),
         Placa: str = Form(...),
         QtdPassageiros: int = Form(...),
-        Tipo: int = Form(...),
+        Tipo: str = Form(...),
         T4x4: str = Form(...),
         Obs: Union[str, None] = Form(...)
     ):

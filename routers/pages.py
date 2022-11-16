@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 import auth_functions
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 router = APIRouter(prefix="/pages")
 
@@ -128,7 +128,13 @@ async def view_solicitation_details(id: int, request: Request, db: Session = Dep
         return response
 
     solicitation = crud.get_request_vehicle(db, id)
-    return templates.TemplateResponse("vehicle_solicitation_details.html", {"request": request, "solicitation": solicitation, "role": user.Role})
+
+    if(solicitation.DataRetorno > datetime.datetime.today().strftime("%Y-%m-%d")):
+        role = "Regular"
+    else:
+        role = user.Role
+
+    return templates.TemplateResponse("vehicle_solicitation_details.html", {"request": request, "solicitation": solicitation, "role": role})
 
 @router.post("/solicitation/details/{id}/{status}", response_class=HTMLResponse)
 async def view_solicitation_details(id: int, status: str, request: Request, db: Session = Depends(get_db)):
