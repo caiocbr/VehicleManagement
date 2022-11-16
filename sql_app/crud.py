@@ -4,7 +4,7 @@ from .database import SessionLocal, engine
 from fastapi import Depends
 
 #-- Request Vehicle --#
-def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm):
+def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm, username: str):
     db_request = models.RequestVehicle(
         Militar = request.Militar,
         Sec = request.Sec,
@@ -18,7 +18,8 @@ def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm):
         Destino = request.Destino,
         DataRetorno = request.DataRetorno,
         HorarioRetorno = request.HorarioRetorno,
-        Status = "Pendente"
+        Status = "Pendente",
+        Solicitante = username
     )
     db.add(db_request)
     db.commit()
@@ -33,6 +34,9 @@ def get_all_request_vehicle(db: Session):
 
 def get_active_requests_by_vehicle_id(db: Session, viatura: str):
     return db.query(models.RequestVehicle).filter(models.RequestVehicle.Viatura == viatura, models.RequestVehicle.Status == "Aprovado").all()
+
+def get_solicitations_by_user(db: Session, username: str):
+    return db.query(models.RequestVehicle).filter(models.RequestVehicle.Solicitante == username).all()
 
 def delete_request_vehicle(db: Session, id: int):
     return db.query(models.RequestVehicle).filter(models.RequestVehicle.Id == id).delete()

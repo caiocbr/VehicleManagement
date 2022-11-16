@@ -18,6 +18,7 @@ class RequestVehicle(BaseModel):
     DataRetorno: str
     HorarioRetorno: str
     Status: str
+    Solicitante: str
 
     class Config:
         orm_mode = True

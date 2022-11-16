@@ -15,7 +15,13 @@ router = APIRouter(prefix="/pages")
 templates = Jinja2Templates(directory="Templates")
 
 @router.get("/home", response_class=HTMLResponse)
-async def home(request: Request):
+async def home(request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None:
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     return templates.TemplateResponse("home.html", {"request": request})
 
 @router.get("/login", response_class=HTMLResponse)
@@ -39,55 +45,132 @@ async def authentication(request: Request, response: Response, username: Union[s
     response.set_cookie('access_token', access_token, auth_functions.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
                         auth_functions.ACCESS_TOKEN_EXPIRE_MINUTES * 60, '/', None, False, True, 'lax')
 
-    return RedirectResponse("http://localhost:8000/pages/home", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/home", status_code=303)
+    response.set_cookie(key="access_token", value=access_token)
+    return response
 
 @router.get("/signup/vehicles", response_class=HTMLResponse)
-async def signup_vehicles(request: Request):
+async def signup_vehicles(request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     return templates.TemplateResponse("cadastro_vtr.html", {"request": request, "result": ""})
 
 @router.post("/signup/vehicles", response_class=HTMLResponse)
 async def signup_vehicles_bd(request: schemas.VehicleForm = Depends(), db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     vehicle = crud.insert_vehicle(db, request)
-    
     if vehicle == None:
         return templates.TemplateResponse("cadastro_vtr.html", {"request": request, "result": "Erro no cadastro de veículo!"})
     
-    return RedirectResponse("http://localhost:8000/pages/home", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/home", status_code=303)
+    response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+    return response
 
+@router.get("/solicitation", response_class=HTMLResponse)
+async def request_vehicles(request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None:
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
 
-@router.get("/request/vehicles", response_class=HTMLResponse)
-async def request_vehicles(request: Request):
     return templates.TemplateResponse("pedido_vtr.html", {"request": request})
+
+@router.post("/solicitation", status_code=200)
+def solicitation_vehicle(request: Request, requestVehicle: schemas.RequestVehicleForm = Depends(), db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None:
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+        
+    crud.insert_request_vehicle(db, requestVehicle, user.Username)
+
+    response = RedirectResponse("http://localhost:8000/pages/solicitations", status_code=303)
+    response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+    return response
 
 @router.get("/solicitations", response_class=HTMLResponse)
 async def view_solicitations(request: Request, db: Session = Depends(get_db)):
-    solicitations = crud.get_all_request_vehicle(db)
+    user = auth_functions.verify_user(db, request)
+    if user == None:
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
+    if user.Role == "Regular":
+        solicitations = crud.get_solicitations_by_user(db, user.Username)
+    else:
+        solicitations = crud.get_all_request_vehicle(db)
+    
     return templates.TemplateResponse("vehicle_solicitations.html", {"request": request, "solicitations": solicitations})
 
 @router.get("/solicitation/details/{id}", response_class=HTMLResponse)
 async def view_solicitation_details(id: int, request: Request, db: Session = Depends(get_db)):
-    print("get")
+    user = auth_functions.verify_user(db, request)
+    if user == None:
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     solicitation = crud.get_request_vehicle(db, id)
-    return templates.TemplateResponse("vehicle_solicitation_details.html", {"request": request, "solicitation": solicitation})
+    return templates.TemplateResponse("vehicle_solicitation_details.html", {"request": request, "solicitation": solicitation, "role": user.Role})
 
 @router.post("/solicitation/details/{id}/{status}", response_class=HTMLResponse)
 async def view_solicitation_details(id: int, status: str, request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     crud.change_status_request_vehicle(db, id, status)
-    return RedirectResponse("http://localhost:8000/pages/solicitations", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/solicitations", status_code=303)
+    response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+    return response
 
 @router.get("/vehicles", response_class=HTMLResponse)
 async def show_vehicles(request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     vehicles = crud.get_all_vehicle(db)
     return templates.TemplateResponse("vehicles.html", {"request": request, "vehicles": vehicles})
 
 @router.get("/vehicle/details/{placa}", response_class=HTMLResponse)
 async def show_vehicle_details(request: Request, placa: str, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     vehicle = crud.get_vehicle_by_plaque(db, placa)
-    print(vehicle)
     return templates.TemplateResponse("vehicle_details.html", {"request": request, "vehicle": vehicle})
 
 @router.post("/vehicle/details/{placa}", response_class=HTMLResponse)
 async def change_status_vehicle(request: Request, placa: str, status: schemas.VehicleStatusForm = Depends(), db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
     vehicle = crud.get_vehicle_by_plaque(db, placa)
     crud.change_status_vehicle(db, vehicle.Id, status.Status)
-    return RedirectResponse("http://localhost:8000/pages/vehicles", status_code=303)
+
+    response = RedirectResponse("http://localhost:8000/pages/vehicles", status_code=303)
+    response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+    return response

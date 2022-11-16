@@ -18,7 +18,7 @@
             <li>{{ solicitation.Militar }}</li>
             <li>{{ solicitation.Sec }}</li>
             <li>{{ solicitation.ChefeViatura }}</li>
-            <li>{{ solicitation.ModeloViatura }}</li>
+            <li>{{ solicitation.Viatura }}</li>
             <li>{{ solicitation.QtdPassageiros }}</li>
             <li>{{ solicitation.DataSaida }}</li>
             <li>{{ solicitation.Local }}</li>
@@ -27,7 +27,7 @@
             <li>{{ solicitation.Status }}</li>
         </div>
 
-        {%if solicitation.Status == "Pendente" %}
+        {%if role != "Regular" %}
             {% set AcceptAction = 'http://localhost:8000/pages/solicitation/details/' + solicitation.Id|string  + '/Aprovado' %}
             {% set RejectAction = 'http://localhost:8000/pages/solicitation/details/' + solicitation.Id|string  + '/Rejeitado' %}
             <form action="{{ AcceptAction }}" method="post">

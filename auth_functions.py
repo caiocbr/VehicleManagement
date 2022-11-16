@@ -54,23 +54,18 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def verify_user(db: Session, request: Request, role: str):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+def verify_user(db: Session, request: Request):
     try:
         token = request.cookies.get("access_token")
         if token is None:
-            raise credentials_exception
+            return None
+        
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
-            raise credentials_exception
+            return None
     except JWTError:
-        raise credentials_exception
+        return None
+    
     user = get_user(db, username=username)
-    if user is None or user.Role != role:
-        raise credentials_exception
     return user

@@ -21,6 +21,7 @@ class RequestVehicle(Base):
     DataRetorno = Column(String, nullable=False)
     Status = Column(String, nullable=False)
     HorarioRetorno = Column(String, nullable=False)
+    Solicitante = Column(String, nullable=False)
 
 class Vehicle(Base):
     __tablename__ = "Vehicles"
