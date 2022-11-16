@@ -37,6 +37,9 @@ def get_all_request_vehicle(db: Session):
 def get_active_requests_by_vehicle_id(db: Session, viatura: str):
     return db.query(models.RequestVehicle).filter(models.RequestVehicle.Viatura == viatura, models.RequestVehicle.Status == "Aprovado").all()
 
+def get_all_requests_by_vehicle_id(db: Session, viatura: str):
+    return db.query(models.RequestVehicle).filter(models.RequestVehicle.Viatura == viatura).all()
+
 def get_solicitations_by_user(db: Session, username: str):
     return db.query(models.RequestVehicle).filter(models.RequestVehicle.Solicitante == username).all()
 

@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 import auth_functions
 from datetime import datetime, timedelta, date
+import aux_functions
 
 router = APIRouter(prefix="/pages")
 
@@ -145,6 +146,17 @@ async def view_solicitation_details(id: int, status: str, request: Request, db: 
         return response
 
     crud.change_status_request_vehicle(db, id, status)
+
+    if status == "Aprovado":
+        actualSolicitation = crud.get_request_vehicle(db, id)
+        solicitations = crud.get_all_requests_by_vehicle_id(db, solicitation.Viatura)
+        
+        for solicitation in solicitations:
+            if solicitation.Id != actualSolicitation.Id and not \
+            aux_functions.check_interval(solicitation.DataSaida, solicitation.HorarioSaida, solicitation.DataRetorno, solicitation.HorarioRetorno, actualSolicitation):
+                crud.change_status_request_vehicle(db, solicitation.Id, "Rejeitado")
+
+
     response = RedirectResponse("http://localhost:8000/pages/solicitations", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
