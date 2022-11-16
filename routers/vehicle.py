@@ -32,18 +32,16 @@ def read_item(data: schemas.RequestDate, db: Session = Depends(get_db)):
     response = []
 
     for vehicle in vehicles:
-        print(vehicle.Modelo + " " + vehicle.Placa)
-        vehicleSolicitations = crud.get_active_requests_by_vehicle_id(db, vehicle.Modelo + " " + vehicle.Placa)
-        print(vehicleSolicitations)
-        validated = True
-        
-        for solicitation in vehicleSolicitations:
-            print(data.DataSaida , data.DataRetorno, solicitation.DataSaida, solicitation.DataRetorno)
-            if not aux_functions.check_interval(data.DataSaida, data.HorarioSaida, data.DataRetorno, data.HorarioRetorno, solicitation):
-                validated = False
-        
-        if validated:    
-            response.append(vehicle)
+        if vehicle.Tipo == data.TipoViatura and int(vehicle.QtdPassageiros) >= data.QtdPassageiros:
+            vehicleSolicitations = crud.get_active_requests_by_vehicle_id(db, vehicle.Modelo + " " + vehicle.Placa)
+            validated = True
+            
+            for solicitation in vehicleSolicitations:
+                if not aux_functions.check_interval(data.DataSaida, data.HorarioSaida, data.DataRetorno, data.HorarioRetorno, solicitation):
+                    validated = False
+            
+            if validated:    
+                response.append(vehicle)
 
     return response
 

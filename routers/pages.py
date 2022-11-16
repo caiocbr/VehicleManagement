@@ -5,7 +5,6 @@ from sql_app.database import SessionLocal, engine, get_db
 from sql_app import crud, schemas
 from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 import auth_functions
 from datetime import timedelta
@@ -77,7 +76,7 @@ async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleFo
     if vehicle == None:
         return templates.TemplateResponse("cadastro_vtr.html", {"request": requestVehicle, "result": "Erro no cadastro de veículo!"})
     
-    response = RedirectResponse("http://localhost:8000/pages/home", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/vehicles", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
 

@@ -13,7 +13,7 @@
     </nav>
 
     <div id="content">
-    <form id="formSolicitation" action="solicitation" method="post">
+    <form id="formSolicitation" action="pages/solicitation" method="post">
         <legend>Solicitação de Viatura</legend>
         <strong>
             Insira as informações solicitadas abaixo e aperte no botão ao final do formulário para consultar as viaturas
@@ -112,10 +112,18 @@
             <label for="inputPassageiros">Passageiros</label>
             <input type="number" class="form-control" id="inputQtdPass" placeholder="X" name="QtdPassageiros">
         </div>
+        <p>
+            <label>Tipo de Viatura</label>
+            <select id="TipoViatura" name="TipoViatura" class="form-control form-control-sm">
+                <option value="Operacional">Operacional</option>
+                <option value="Administrativa">Administrativa</option>
+            </select>
+        </p>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Missão e Observações</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="Obs"></textarea>
         </div>
+
         <div id="vehiclesInformation"></div>
     </form>
         <div id="buttons">

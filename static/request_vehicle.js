@@ -7,8 +7,17 @@ async function ClickButton(){
     horarioSaida = document.getElementById("horaSaida").value;
     dataRetorno = document.getElementById("diaRet").value;
     horarioRetorno = document.getElementById("horaRet").value;
+    qtdPassageiros = document.getElementById("inputQtdPass").value;
+    tipoViatura = document.getElementById("TipoViatura").value;
 
-    var body = {"DataSaida": dataSaida, "HorarioSaida": horarioSaida, "DataRetorno": dataRetorno, "HorarioRetorno": horarioRetorno};
+    var body = {
+        "DataSaida": dataSaida,
+        "HorarioSaida": horarioSaida,
+        "DataRetorno": dataRetorno,
+        "HorarioRetorno": horarioRetorno,
+        "TipoViatura": tipoViatura,
+        "QtdPassageiros": qtdPassageiros
+    };
     response = await fetch('http://localhost:8000/vehicle/query', {
         method: 'POST',
         headers: {

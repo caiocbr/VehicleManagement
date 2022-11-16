@@ -1,6 +1,7 @@
 from typing import List, Union
 from pydantic import BaseModel
 from fastapi import Form
+import datetime
 
 #-- Request Vehicle --#
 class RequestVehicle(BaseModel):
@@ -9,16 +10,17 @@ class RequestVehicle(BaseModel):
     Sec: str
     ChefeViatura: str
     Viatura: str
-    QtdPassageiros: str
-    DataSaida: str
+    QtdPassageiros: int
+    DataSaida: datetime.date
     HorarioSaida: str
     Local: str
     Obs: str
     Destino: str
-    DataRetorno: str
+    DataRetorno: datetime.date
     HorarioRetorno: str
     Status: str
     Solicitante: str
+    DataPedido: datetime.date
 
     class Config:
         orm_mode = True
@@ -53,10 +55,12 @@ class RequestVehicleForm:
         self.HorarioRetorno = HorarioRetorno
 
 class RequestDate(BaseModel):
-    DataSaida: str
+    DataSaida: datetime.date
     HorarioSaida: str
-    DataRetorno: str
+    DataRetorno: datetime.date
     HorarioRetorno: str
+    QtdPassageiros: int
+    TipoViatura: str
 
 class RequestVehicleStatus(BaseModel):
     Id: int
@@ -72,7 +76,7 @@ class Vehicle(BaseModel):
     Modelo: str
     Tipo: str
     T4x4: str
-    QtdPassageiros: str
+    QtdPassageiros: int
     Obs: str
     Status: str
 
@@ -98,7 +102,7 @@ class VehicleForm:
         Modelo: str = Form(...),
         Placa: str = Form(...),
         QtdPassageiros: int = Form(...),
-        Tipo: str = Form(...),
+        Tipo: int = Form(...),
         T4x4: str = Form(...),
         Obs: Union[str, None] = Form(...)
     ):

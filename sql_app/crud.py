@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from .database import SessionLocal, engine
 from fastapi import Depends
+import datetime
 
 #-- Request Vehicle --#
 def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm, username: str):
@@ -19,7 +20,8 @@ def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm, use
         DataRetorno = request.DataRetorno,
         HorarioRetorno = request.HorarioRetorno,
         Status = "Pendente",
-        Solicitante = username
+        Solicitante = username,
+        DataPedido = datetime.datetime.today().strftime("%Y-%m-%d")
     )
     db.add(db_request)
     db.commit()
