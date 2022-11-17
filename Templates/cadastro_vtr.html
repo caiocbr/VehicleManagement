@@ -4,16 +4,16 @@
     <nav class="navbar navbar-dark bg-dark" style="height: 120px;">
         <div style="display: inline-flex; margin-left: 20px; font-size: 22; font-family: century-gothic;">
             <img src="{{ url_for('static', path='/logo.png') }}" style="width: 60px; margin-right: 60px;">
-            <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
-            <a class="nav-link" href="http://localhost:8000/pages/solicitation">Pedido de Viatura</a>
-            <a class="nav-link" href="http://localhost:8000/pages/solicitations/Pendente">Meus Pedidos</a>
+            <a class="nav-link" href="http://10.80.5.251:8000/pages/home">Home</a>
+            <a class="nav-link" href="http://10.80.5.251:8000/pages/solicitation">Pedido de Viatura</a>
+            <a class="nav-link" href="http://10.80.5.251:8000/pages/solicitations/Pendente">Meus Pedidos</a>
             {% if role != "Regular" %}
-                <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
-                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+                <a class="nav-link" href="http://10.80.5.251:8000/pages/vehicles">Viaturas</a>
+                <a class="nav-link" href="http://10.80.5.251:8000/pages/signup/vehicles">Cadastro de Viatura</a>
             {% endif %}
         </div>
         <div style="display: inline-flex; margin-right: 20px; font-size: 22; font-family: century-gothic;">
-            <a class="nav-link" href="http://localhost:8000/pages/logout">Logout</a>
+            <a class="nav-link" href="http://10.80.5.251:8000/pages/logout">Logout</a>
         </div>
     </nav>
 
