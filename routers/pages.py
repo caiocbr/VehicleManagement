@@ -215,3 +215,13 @@ async def change_status_vehicle(request: Request, placa: str, status: schemas.Ve
     response = RedirectResponse("http://" + main.IP + "/pages/vehicles", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
+
+@router.get("/signup/user", response_class=HTMLResponse)
+async def home(request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role != "Admin":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
+    return templates.TemplateResponse("cadastro_user.html", {"request": request})
