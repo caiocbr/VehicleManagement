@@ -6,16 +6,11 @@ def check_interval(dataSaida, horarioSaida, dataRetorno, horarioRetorno, solicit
     dataSaidaVehicle = solicitation.DataSaida
     dataRetornoVehicle = solicitation.DataRetorno
 
-    if dataSaida < dataRetornoVehicle and dataSaida >= dataSaidaVehicle:
-        return False
-    elif dataSaida == dataRetornoVehicle and horarioSaida < solicitation.HorarioRetorno and dataSaida >= dataSaidaVehicle:
-        return False
-    elif dataRetorno <= dataRetornoVehicle and dataRetorno > dataSaidaVehicle:
-        return False
-    elif dataRetorno <= dataRetornoVehicle and horarioRetorno > solicitation.HorarioSaida and dataRetorno >= dataSaidaVehicle:
-        return False
-    else:
+    if dataSaida > dataRetornoVehicle or (dataSaida == dataRetornoVehicle and horarioSaida >= solicitation.HorarioRetorno):
         return True
+    if dataSaidaVehicle > dataRetorno or (dataSaidaVehicle == dataRetorno and horarioRetorno >= solicitation.HorarioSaida):
+        return True
+    return False
 
 def sort_vehicles(vehicleA, vehicleB):
     if vehicleA.Status == "Ativo" and vehicleB.Status == "Inativo":
