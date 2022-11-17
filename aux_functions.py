@@ -16,4 +16,11 @@ def check_interval(dataSaida, horarioSaida, dataRetorno, horarioRetorno, solicit
         return False
     else:
         return True
+
+def sort_vehicles(vehicleA, vehicleB):
+    if vehicleA.Status == "Ativo" and vehicleB.Status == "Inativo":
+        return True
+    if vehicleA.Modelo < vehicleB.Modelo :
+        return True
+    return False
     
