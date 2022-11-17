@@ -9,8 +9,10 @@
                 <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
                 <a class="nav-link" href="http://localhost:8000/pages/solicitation">Pedido de Viatura</a>
                 <a class="nav-link" href="http://localhost:8000/pages/solicitations">Meus Pedidos</a>
-                <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
-                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+                {% if role != "Regular" %}
+                    <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
+                    <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+                {% endif %}
             </div>
             <div style="display: inline-flex; margin-right: 20px; font-size: 22; font-family: century-gothic;">
                 <a class="nav-link" href="http://localhost:8000/pages/logout">Logout</a>
@@ -33,18 +35,19 @@
             <p><b>Destino:</b>  {{ solicitation.Destino }}</p>
             <p><b>Observação:</b>  {{ solicitation.Obs }}</p>
             <p><b>Status da Solicitação:</b>  {{ solicitation.Status }}</p>
+            <p><b>Data da Solicitação:</b>  {{ solicitation.DataPedido }}</p>
         </div>
 
 
-        <div class="row justify-content-start">
+        <div class="row justify-content-start" style="justify-content: center!important; margin-top: 50px; margin-bottom: 20px;">
 
         {%if role != "Regular" %}
             {% set AcceptAction = 'http://localhost:8000/pages/solicitation/details/' + solicitation.Id|string  + '/Aprovado' %}
             {% set RejectAction = 'http://localhost:8000/pages/solicitation/details/' + solicitation.Id|string  + '/Rejeitado' %}
-            <form action="{{ AcceptAction }}" method="post">
+            <form action="{{ AcceptAction }}" method="post" style="margin-right: 40px;">
                 <button type="submit" class="btn btn-success">Aceitar</button>
             </form>
-            <form action="{{ RejectAction }}" method="post">
+            <form action="{{ RejectAction }}" method="post" style="margin-left: 40px;">
                 <button type="submit" class="btn btn-danger">Rejeitar</button>
             </form>
         {% endif %}

@@ -21,7 +21,7 @@ def insert_request_vehicle(db: Session, request: schemas.RequestVehicleForm, use
         HorarioRetorno = request.HorarioRetorno,
         Status = "Pendente",
         Solicitante = username,
-        DataPedido = datetime.datetime.today().strftime("%Y-%m-%d")
+        DataPedido = datetime.datetime.now()
     )
     db.add(db_request)
     db.commit()

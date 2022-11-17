@@ -7,8 +7,10 @@
             <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
             <a class="nav-link" href="http://localhost:8000/pages/solicitation">Pedido de Viatura</a>
             <a class="nav-link" href="http://localhost:8000/pages/solicitations">Meus Pedidos</a>
-            <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
-            <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+            {% if role != "Regular" %}
+                <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
+                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+            {% endif %}
         </div>
         <div style="display: inline-flex; margin-right: 20px; font-size: 22; font-family: century-gothic;">
             <a class="nav-link" href="http://localhost:8000/pages/logout">Logout</a>
@@ -19,13 +21,13 @@
     <form class="forme" action="{{ changeStatusUrl }}" method="post">
 
     <div>
-        <p class="Informations">MODELO:  {{ vehicle.Modelo }}</p>
-        <p class="Informations">PLACA:  {{ vehicle.Placa }}</p>
-        <p class="Informations">TIPO:  {{ vehicle.Tipo }}</p>
-        <p class="Informations">TRAÇÃO 4X4:  {{ vehicle.T4x4 }}</p>
-        <p class="Informations">OBSERVAÇÃO:  {{ vehicle.Obs }}</p>
-        <p class="Informations">STATUS:  {{ vehicle.Status }}</p>
-        <p class="Informations">QUANTIDADE DE PASSAGEIROS:  {{ vehicle.QtdPassageiros }}</p>
+        <p class="Informations"><b>MODELO:</b>  {{ vehicle.Modelo }}</p>
+        <p class="Informations"><b>PLACA:</b>  {{ vehicle.Placa }}</p>
+        <p class="Informations"><b>TIPO:</b>  {{ vehicle.Tipo }}</p>
+        <p class="Informations"><b>TRAÇÃO 4X4:</b>  {{ vehicle.T4x4 }}</p>
+        <p class="Informations"><b>OBSERVAÇÃO:</b>  {{ vehicle.Obs }}</p>
+        <p class="Informations"><b>STATUS:</b>  {{ vehicle.Status }}</p>
+        <p class="Informations"><b>QUANTIDADE DE PASSAGEIROS:</b>  {{ vehicle.QtdPassageiros }}</p>
     </div>
 
 
