@@ -22,7 +22,7 @@ async def home(request: Request, db: Session = Depends(get_db)):
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
-    return templates.TemplateResponse("home.html", {"request": request})
+    return templates.TemplateResponse("home.html", {"request": request, "role": user.Role})
 
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request, result: str = ""):
@@ -63,7 +63,7 @@ async def signup_vehicles(request: Request, db: Session = Depends(get_db)):
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
-    return templates.TemplateResponse("cadastro_vtr.html", {"request": request, "result": ""})
+    return templates.TemplateResponse("cadastro_vtr.html", {"request": request, "result": "", "role": user.Role})
 
 @router.post("/signup/vehicles", response_class=HTMLResponse)
 async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleForm = Depends(), db: Session = Depends(get_db)):
@@ -75,7 +75,7 @@ async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleFo
 
     vehicle = crud.insert_vehicle(db, requestVehicle)
     if vehicle == None:
-        return templates.TemplateResponse("cadastro_vtr.html", {"request": requestVehicle, "result": "Erro no cadastro de veículo!"})
+        return templates.TemplateResponse("cadastro_vtr.html", {"request": requestVehicle, "result": "Erro no cadastro de veículo!", "role": user.Role})
     
     response = RedirectResponse("http://localhost:8000/pages/vehicles", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
@@ -89,7 +89,7 @@ async def request_vehicles(request: Request, db: Session = Depends(get_db)):
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
-    return templates.TemplateResponse("pedido_vtr.html", {"request": request})
+    return templates.TemplateResponse("pedido_vtr.html", {"request": request, "role": user.Role})
 
 @router.post("/solicitation", status_code=200)
 def solicitation_vehicle(request: Request, requestVehicle: schemas.RequestVehicleForm = Depends(), db: Session = Depends(get_db)):
@@ -118,7 +118,9 @@ async def view_solicitations(request: Request, db: Session = Depends(get_db)):
     else:
         solicitations = crud.get_all_request_vehicle(db)
     
-    return templates.TemplateResponse("vehicle_solicitations.html", {"request": request, "solicitations": solicitations})
+    solicitations.sort(key=lambda x: x.DataPedido)
+
+    return templates.TemplateResponse("vehicle_solicitations.html", {"request": request, "solicitations": solicitations, "role": user.Role})
 
 @router.get("/solicitation/details/{id}", response_class=HTMLResponse)
 async def view_solicitation_details(id: int, request: Request, db: Session = Depends(get_db)):
@@ -170,7 +172,9 @@ async def show_vehicles(request: Request, db: Session = Depends(get_db)):
         return response
 
     vehicles = crud.get_all_vehicle(db)
-    return templates.TemplateResponse("vehicles.html", {"request": request, "vehicles": vehicles})
+    vehicles.sort(key=lambda x: x.Status)
+    
+    return templates.TemplateResponse("vehicles.html", {"request": request, "vehicles": vehicles, "role": user.Role})
 
 @router.get("/vehicle/details/{placa}", response_class=HTMLResponse)
 async def show_vehicle_details(request: Request, placa: str, db: Session = Depends(get_db)):
@@ -181,7 +185,7 @@ async def show_vehicle_details(request: Request, placa: str, db: Session = Depen
         return response
 
     vehicle = crud.get_vehicle_by_plaque(db, placa)
-    return templates.TemplateResponse("vehicle_details.html", {"request": request, "vehicle": vehicle})
+    return templates.TemplateResponse("vehicle_details.html", {"request": request, "vehicle": vehicle, "role": user.Role})
 
 @router.post("/vehicle/details/{placa}", response_class=HTMLResponse)
 async def change_status_vehicle(request: Request, placa: str, status: schemas.VehicleStatusForm = Depends(), db: Session = Depends(get_db)):

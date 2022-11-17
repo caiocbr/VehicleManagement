@@ -2,6 +2,13 @@ const button = document.getElementById('ConsultingButton');
 
 button.addEventListener('click', function () {ClickButton()});
 
+$("#diaSaida").change(function() {ChangeAction()});
+$("#horaSaida").change(function() {ChangeAction()});
+$("#diaRet").change(function() {ChangeAction()});
+$("#horaRet").change(function() {ChangeAction()});
+$("#inputQtdPass").change(function() {ChangeAction()});
+$("#TipoViatura").change(function() {ChangeAction()});
+
 async function ClickButton(){
     dataSaida = document.getElementById("diaSaida").value;
     horarioSaida = document.getElementById("horaSaida").value;
@@ -81,7 +88,7 @@ async function ClickButton(){
             vehiclesDiv.appendChild(label);
             vehiclesDiv.appendChild(select);
         }
-    } 
+    }
 }
 
 function ConsultingVehicles(response){
@@ -92,4 +99,17 @@ function ConsultingVehicles(response){
     for(var i = 0; i < vehicles.length; i++){
         console.log(vehicles[i]);
     }
+}
+
+function ChangeAction(){
+    if(document.getElementById("solicitationButton") != null){
+        document.getElementById("solicitationButton").remove();
+    }
+
+    vehiclesDiv = document.getElementById("vehiclesInformation");
+        var child = vehiclesDiv.lastElementChild; 
+        while (child) {
+            vehiclesDiv.removeChild(child);
+            child = vehiclesDiv.lastElementChild;
+        }
 }

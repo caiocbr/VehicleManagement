@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, DateTime
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -16,13 +16,13 @@ class RequestVehicle(Base):
     DataSaida = Column(Date, nullable=False)
     HorarioSaida = Column(String, nullable=False)
     Local = Column(String, nullable=False)
-    Obs = Column(String, nullable=False)
+    Obs = Column(String)
     Destino = Column(String, nullable=False)
     DataRetorno = Column(Date, nullable=False)
     Status = Column(String, nullable=False)
     HorarioRetorno = Column(String, nullable=False)
     Solicitante = Column(String, nullable=False)
-    DataPedido = Column(Date, nullable=False)
+    DataPedido = Column(DateTime, nullable=False)
 
 class Vehicle(Base):
     __tablename__ = "Vehicles"
@@ -34,7 +34,7 @@ class Vehicle(Base):
     Status = Column(String, nullable=False)
     Tipo = Column(String, nullable=False)
     T4x4 = Column(String, nullable=False)
-    Obs = Column(String, nullable=False)
+    Obs = Column(String)
 
 class User(Base):
     __tablename__ = "Users"

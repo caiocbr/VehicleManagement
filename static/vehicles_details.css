@@ -4,7 +4,7 @@
 }
 
 .Informations{
-    margin-top: 5px;
+    margin-top: 0px;
     font-family: century-gothic, sans-serif; 
 }
 
@@ -28,8 +28,7 @@ body{
     margin: 0 auto;
     margin-top:50px;
     width: 400px;
-    /* Para ver as bordas do formulário */  
-    padding: 1em;
+    padding: 2em;
     border: 1px solid rgb(0, 0, 0);
     border-radius: 1em;
     background-color: rgb(0, 0, 0, 0.9 );
