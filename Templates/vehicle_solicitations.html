@@ -23,11 +23,11 @@
                     <th scope="col">#</th>
                     <th scope="col">Militar</th>
                     <th scope="col">Seção</th>
-                    <th scope="col">Chefe de Viatura</th>
                     <th scope="col">Viatura</th>
-                    <th scope="col">Local</th>
                     <th scope="col">Data de Saída</th>
+                    <th scope="col">Horário de Saída</th>
                     <th scope="col">Data de Retorno</th>
+                    <th scope="col">Horário de Retorno</th>
                     <th scope="col">Status</th>
                     <th scope="col"></th>
                 </tr>
@@ -45,11 +45,11 @@
                         <th scope="row">{{ ns.cnt }}</th>
                         <td>{{ solicitation.Militar }}</td>
                         <td>{{ solicitation.Sec }}</td>
-                        <td>{{ solicitation.ChefeViatura }}</td>
                         <td>{{ solicitation.Viatura }}</td>
-                        <td>{{ solicitation.Local }}</td>
                         <td>{{ solicitation.DataSaida }}</td>
+                        <td>{{ solicitation.HorarioSaida }}</td>
                         <td>{{ solicitation.DataRetorno }}</td>
+                        <td>{{ solicitation.HorarioRetorno }}</td>
                         <td>{{ solicitation.Status }}</td>
                         <td>
                             <a href="{{ '/pages/solicitation/details/%s'%solicitation.Id }}">
