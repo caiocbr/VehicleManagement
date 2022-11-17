@@ -43,6 +43,12 @@ def get_all_requests_by_vehicle_id(db: Session, viatura: str):
 def get_solicitations_by_user(db: Session, username: str):
     return db.query(models.RequestVehicle).filter(models.RequestVehicle.Solicitante == username).all()
 
+def get_all_request_by_status(db: Session, status: str):
+    return db.query(models.RequestVehicle).filter(models.RequestVehicle.Status == status).all()
+
+def get_all_request_by_status_user(db: Session, status: str, username: str):
+    return db.query(models.RequestVehicle).filter(models.RequestVehicle.Solicitante == username, models.RequestVehicle.Status == status).all()
+
 def delete_request_vehicle(db: Session, id: int):
     return db.query(models.RequestVehicle).filter(models.RequestVehicle.Id == id).delete()
 

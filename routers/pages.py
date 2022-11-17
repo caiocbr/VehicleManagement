@@ -1,5 +1,5 @@
 from typing import Union, List
-from fastapi import APIRouter, Form, Depends, Request, Response
+from fastapi import APIRouter, Form, Depends, Request, Response, HTTPException
 from fastapi.responses import RedirectResponse
 from sql_app.database import SessionLocal, engine, get_db
 from sql_app import crud, schemas
@@ -105,8 +105,11 @@ def solicitation_vehicle(request: Request, requestVehicle: schemas.RequestVehicl
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
 
-@router.get("/solicitations", response_class=HTMLResponse)
-async def view_solicitations(request: Request, db: Session = Depends(get_db)):
+@router.get("/solicitations/{status}", response_class=HTMLResponse)
+async def view_solicitations(request: Request, status: str, db: Session = Depends(get_db)):
+    if status != "Pendente" and status != "Aprovado" and status != "Rejeitado" and status != "Todos":
+        raise HTTPException(status_code=404)
+
     user = auth_functions.verify_user(db, request)
     if user == None:
         response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
@@ -114,11 +117,20 @@ async def view_solicitations(request: Request, db: Session = Depends(get_db)):
         return response
 
     if user.Role == "Regular":
-        solicitations = crud.get_solicitations_by_user(db, user.Username)
+        if status == "Todos":
+            solicitations = crud.get_solicitations_by_user(db, user.Username)
+        else:
+            solicitations = crud.get_all_request_by_status_user(db, status, user.Username)
     else:
-        solicitations = crud.get_all_request_vehicle(db)
+        if status == "Todos":
+            solicitations = crud.get_all_request_vehicle(db)
+        else:
+            solicitations = crud.get_all_request_by_status(db, status)
     
-    solicitations.sort(key=lambda x: x.DataPedido)
+    if status == "Pendente":
+        solicitations.sort(key=lambda x: x.DataPedido)
+    else:
+        solicitations.sort(key=lambda x: x.DataPedido, reverse=True)
 
     return templates.TemplateResponse("vehicle_solicitations.html", {"request": request, "solicitations": solicitations, "role": user.Role})
 
