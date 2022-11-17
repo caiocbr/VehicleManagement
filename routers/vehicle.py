@@ -32,7 +32,9 @@ def get_vehicle(data: schemas.RequestDate, db: Session = Depends(get_db)):
     vehicles = crud.get_all_active_vehicle(db)
     response = []
 
-    if datetime.now().strftime('%H:%M') > "14:00" and (data.DataSaida - date.today()).days <= 1:
+    print(data.DataSaida - date.today())
+    print((data.DataSaida - date.today()).days <= 1)
+    if ((data.DataSaida - date.today()).days == 1 and datetime.now().strftime('%H:%M') > "14:00") or (data.DataSaida - date.today()).days < 1:
         return response
 
     for vehicle in vehicles:

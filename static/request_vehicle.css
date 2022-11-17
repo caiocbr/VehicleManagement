@@ -38,7 +38,7 @@ input, textarea {
     width: 300px;
 
     /* Para harmonizar o look & feel das bordas nos campos de texto*/
-    border: 1px solid #999;
+    border: 1px solid rgb(255, 255, 255);
 }
 
 input:focus, textarea:focus {
@@ -67,7 +67,7 @@ legend {
     background-image: url("guarani.jpg");
     font-family: century-gothic, sans-serif;
     font-size: 15px;
-    color: rgb(250, 250, 250);
+    color: #ffffff;
     background-size: 100%;
     background-repeat:no-repeat;
     background-attachment: fixed;
@@ -80,13 +80,13 @@ legend {
     width: auto;
     align-items: right;
     display: inline;
-    color: rgb(97, 97, 97);
+    color: rgb(255, 255, 255);
 } 
 #dia{
     width: auto;
     align-items: right;
     display: inline-block;
-    color: rgb(97, 97, 97);
+    color: rgb(255, 255, 255);
     
 }
 #content{
