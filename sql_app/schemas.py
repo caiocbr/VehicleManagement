@@ -163,3 +163,9 @@ class SignUpUser(BaseModel):
 
     class Config:
         orm_mode = True
+
+class DeleteUser(BaseModel):
+    Username: str
+
+    class Config:
+        orm_mode = True

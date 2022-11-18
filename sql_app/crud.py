@@ -89,3 +89,8 @@ def change_status_vehicle(db: Session, id: int, status: str):
     vehicle = db.query(models.Vehicle).filter(models.Vehicle.Id == id)
     vehicle.update({"Status": status})
     db.commit()
+
+#-- User --#
+def delete_user(db: Session, username: str):
+    db.query(models.User).filter(models.User.Username == username).delete()
+    db.commit()

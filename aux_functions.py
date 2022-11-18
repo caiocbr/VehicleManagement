@@ -1,8 +1,6 @@
 from datetime import datetime, timedelta
 
 def check_interval(dataSaida, horarioSaida, dataRetorno, horarioRetorno, solicitation):
-    #dataSaida = datetime.strptime(dataSaida, "%Y-%M-%D")
-    #dataRetorno = datetime.strptime(dataSaida, "%Y-%M-%D")
     dataSaidaVehicle = solicitation.DataSaida
     dataRetornoVehicle = solicitation.DataRetorno
 

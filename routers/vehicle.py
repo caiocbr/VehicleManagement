@@ -6,34 +6,49 @@ from sqlalchemy.orm import Session
 from sql_app import schemas, crud
 import aux_functions
 from datetime import date, datetime
+import auth_functions
 
 router = APIRouter(prefix="/vehicle")
 
 # Cadastro Viatura
 @router.post("/signup", status_code=200)
-def signup_vehicle(vehicle: schemas.Vehicle, db: Session = Depends(get_db)):
+def signup_vehicle(request: Request, vehicle: schemas.Vehicle, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
     db_request = crud.insert_vehicle(db, vehicle)
     if db_request == None:
-        return HTTPException(status_code=500)
+        raise HTTPException(status_code=500)
 
 # Deletar Viatura
 @router.delete("/delete", status_code=200)
-def delete_vehicle(id: schemas.VehicleId, db: Session = Depends(get_db)):
-    crud.delete_vehicle(db, id)
+def delete_vehicle(request: Request, id: schemas.VehicleId, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
+    crud.delete_vehicle(db, id.Id)
 
 # Pegar todas as viatura
 @router.get("/query", response_model=List[schemas.Vehicle])
-def get_all_vehicle(db: Session = Depends(get_db)):
+def get_all_vehicle(request: Request, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
     return crud.get_all_vehicle(db)
 
 # Consultar Viatura
 @router.post("/query", response_model=List[schemas.Vehicle])
-def get_vehicle(data: schemas.RequestDate, db: Session = Depends(get_db)):
+def get_vehicle(request: Request, data: schemas.RequestDate, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
     vehicles = crud.get_all_active_vehicle(db)
     response = []
 
-    print(data.DataSaida - date.today())
-    print((data.DataSaida - date.today()).days <= 1)
     if ((data.DataSaida - date.today()).days == 1 and datetime.now().strftime('%H:%M') > "14:00") or (data.DataSaida - date.today()).days < 1:
         return response
 
@@ -53,5 +68,9 @@ def get_vehicle(data: schemas.RequestDate, db: Session = Depends(get_db)):
 
 # Alterar Status Viatura
 @router.post("/status")
-def change_status_vehicle(vehicle: schemas.VehicleStatus, db: Session = Depends(get_db)):
+def change_status_vehicle(request: Request, vehicle: schemas.VehicleStatus, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
     crud.change_status_vehicle(db, vehicle.Id, vehicle.Status)

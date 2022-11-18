@@ -6,9 +6,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
 from routers import solicitation, user, vehicle, pages
 
-IP = "localhost"
-#IP = "localhost:8000"
-
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

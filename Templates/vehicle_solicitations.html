@@ -51,6 +51,8 @@
                         <tr style="text-align: center; background-color: #9ce985;">
                     {% elif solicitation.Status == "Rejeitado" %}
                         <tr style="text-align: center; background-color: #e98585;">
+                    {% elif solicitation.Status == "Expirado" %}
+                        <tr style="text-align: center; background-color: #dfe985;">
                     {% else %}        
                         <tr style="text-align: center;">
                     {% endif %}

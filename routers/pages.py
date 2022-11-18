@@ -128,12 +128,21 @@ async def view_solicitations(request: Request, status: str, db: Session = Depend
         else:
             solicitations = crud.get_all_request_by_status(db, status)
     
-    if status == "Pendente":
-        solicitations.sort(key=lambda x: x.DataPedido)
-    else:
-        solicitations.sort(key=lambda x: x.DataPedido, reverse=True)
+    finalSolicitations = []
+    todayDate = date.today()
+    hourNow = datetime.now().strftime('%H:%M')
+    for solicitation in solicitations:
+        if (solicitation.DataRetorno < todayDate or (solicitation.DataRetorno == todayDate and hourNow >= solicitation.HorarioRetorno)) and solicitation.Status == "Pendente":
+                crud.change_status_request_vehicle(db, solicitation.Id, "Expirado")
+        else:
+            finalSolicitations.append(solicitation)
 
-    return templates.TemplateResponse("vehicle_solicitations.html", {"request": request, "solicitations": solicitations, "role": user.Role})
+    if status == "Pendente":
+        finalSolicitations.sort(key=lambda x: x.DataPedido)
+    else:
+        finalSolicitations.sort(key=lambda x: x.DataPedido, reverse=True)
+
+    return templates.TemplateResponse("vehicle_solicitations.html", {"request": request, "solicitations": finalSolicitations, "role": user.Role})
 
 @router.get("/solicitation/details/{id}", response_class=HTMLResponse)
 async def view_solicitation_details(id: int, request: Request, db: Session = Depends(get_db)):

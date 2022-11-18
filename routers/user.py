@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi import Depends, Request, HTTPException, status, Response
+from fastapi import Depends, Request, HTTPException, status, Response, Request
 from sql_app.database import SessionLocal, engine, get_db
+from sql_app import crud
 from sqlalchemy.orm import Session
 from sql_app import schemas
 import auth_functions
@@ -28,14 +29,21 @@ async def login_for_access_token(response: Response, login: schemas.Login, db: S
 
     return {"access_token": access_token}
 
-# Pegar Usuário
-@router.get("/me/", response_model=schemas.User)
-def read_user_me(request: Request, db: Session = Depends(get_db)):
-    current_user = auth_functions.verify_user(db, request, "Regular")
-    return current_user
-
 # Fazer Cadastro
 @router.post("/signup/", status_code=200)
-def create_user(user: schemas.SignUpUser, db: Session = Depends(get_db)):
-    user = auth_functions.create_user(db, user)
-    return user
+def create_user(request: Request, userSign: schemas.SignUpUser, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
+    userSign = auth_functions.create_user(db, userSign)
+    return userSign
+
+# Delete User
+@router.delete("/delete/", status_code=200)
+def create_user(request: Request, userSign: schemas.DeleteUser, db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        raise HTTPException(status_code=401)
+
+    userSign = crud.delete_user(db, userSign.Username)
