@@ -4,16 +4,19 @@
     <nav class="navbar navbar-dark bg-dark" style="height: 120px;">
         <div style="display: inline-flex; margin-left: 20px; font-size: 22; font-family: century-gothic;">
             <img src="{{ url_for('static', path='/logo.png') }}" style="width: 60px; margin-right: 60px;">
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/home">Home</a>
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/solicitation">Pedido de Viatura</a>
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/solicitations/Pendente">Meus Pedidos</a>
+            <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
+            <a class="nav-link" href="http://localhost:8000/pages/solicitation">Pedido de Viatura</a>
+            <a class="nav-link" href="http://localhost:8000/pages/solicitations/Pendente">Meus Pedidos</a>
             {% if role != "Regular" %}
-                <a class="nav-link" href="http://10.80.5.251:8000/pages/vehicles">Viaturas</a>
-                <a class="nav-link" href="http://10.80.5.251:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+                <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
+                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
             {% endif %}
         </div>
         <div style="display: inline-flex; margin-right: 20px; font-size: 22; font-family: century-gothic;">
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/logout">Logout</a>
+            {% if role != "Regular" %}
+                <a class="nav-link" href="http://localhost:8000/pages/signup/user">Cadastro</a>
+            {% endif %}
+            <a class="nav-link" href="http://localhost:8000/pages/logout">Logout</a>
         </div>
     </nav>
     
@@ -21,6 +24,11 @@
         <p class="line"><b>"Árdua é a missão de desenvolver e defender a Amazônia.</b></p>
         <p class="lineBottom"><b>Muito mais difícil, porém, foi a de nossos antepassados</b></p>
         <p class="lineBottom"><b>de conquistá-la e mantê-la."</b></p>
+    </div>
+
+    <div id="sponsors">
+        <p><i>Sponsored by: Ten Caio Chaves e Ten Vitor Ébias</i></p>
+        <p><i>Telefone: +55 24 98838-9526</i></p>
     </div>
 
 </body>

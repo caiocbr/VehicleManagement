@@ -28,7 +28,7 @@ class Vehicle(Base):
     __tablename__ = "Vehicles"
 
     Id = Column(Integer, primary_key=True, index=True)
-    Placa = Column(String, nullable=False)
+    Placa = Column(String, nullable=False, unique=True)
     Modelo = Column(String, nullable=False)
     QtdPassageiros = Column(Integer, nullable=False)
     Status = Column(String, nullable=False)
@@ -40,8 +40,8 @@ class User(Base):
     __tablename__ = "Users"
 
     Id = Column(Integer, primary_key=True, index=True)
-    Username = Column(String, nullable=False)
+    Username = Column(String, nullable=False, unique=True)
     Password = Column(String, nullable=False)
     Name = Column(String, nullable=False)
-    CPF = Column(String, nullable=False)
+    CPF = Column(String, nullable=False, unique=True)
     Role = Column(String, nullable=False)

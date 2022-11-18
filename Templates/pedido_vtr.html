@@ -6,16 +6,19 @@
     <nav class="navbar navbar-dark bg-dark" style="height: 120px;">
         <div style="display: inline-flex; margin-left: 20px; font-size: 22; font-family: century-gothic;">
             <img src="{{ url_for('static', path='/logo.png') }}" style="width: 60px; margin-right: 60px;">
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/home">Home</a>
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/solicitation">Pedido de Viatura</a>
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/solicitations/Pendente">Meus Pedidos</a>
+            <a class="nav-link" href="http://localhost:8000/pages/home">Home</a>
+            <a class="nav-link" href="http://localhost:8000/pages/solicitation">Pedido de Viatura</a>
+            <a class="nav-link" href="http://localhost:8000/pages/solicitations/Pendente">Meus Pedidos</a>
             {% if role != "Regular" %}
-                <a class="nav-link" href="http://10.80.5.251:8000/pages/vehicles">Viaturas</a>
-                <a class="nav-link" href="http://10.80.5.251:8000/pages/signup/vehicles">Cadastro de Viatura</a>
+                <a class="nav-link" href="http://localhost:8000/pages/vehicles">Viaturas</a>
+                <a class="nav-link" href="http://localhost:8000/pages/signup/vehicles">Cadastro de Viatura</a>
             {% endif %}
         </div>
         <div style="display: inline-flex; margin-right: 20px; font-size: 22; font-family: century-gothic;">
-            <a class="nav-link" href="http://10.80.5.251:8000/pages/logout">Logout</a>
+            {% if role != "Regular" %}
+                <a class="nav-link" href="http://localhost:8000/pages/signup/user">Cadastro</a>
+            {% endif %}
+            <a class="nav-link" href="http://localhost:8000/pages/logout">Logout</a>
         </div>
     </nav>
 
@@ -30,16 +33,16 @@
         <div class="form-row" display block ruby>
             <div class="form-group col-md-6">
                 <label for="inputNome">Nome de Guerra</label>
-                <input type="text" class="form-control" id="inputNome" placeholder="Nome de Guerra" name="Militar">
+                <input type="text" class="form-control" id="inputNome" placeholder="Nome de Guerra" name="Militar" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputChefe">Chefe de Viatura</label>
-                <input type="text" class="form-control" id="inputChefe" placeholder="Nome do Chefe de Viatura" name="ChefeViatura">
+                <input type="text" class="form-control" id="inputChefe" placeholder="Nome do Chefe de Viatura" name="ChefeViatura" required>
             </div>
         </div>
         <p>
             <label for="inputSecao">Seção de Trabalho</label>
-            <select name="Sec" class="form-control form-control-sm">
+            <select name="Sec" class="form-control form-control-sm" required>
                 <option value="Pav Cmdo - AEMP">Pav Cmdo - AEMP</option>
                 <option value="Pav Cmdo - E1">Pav Cmdo - E1</option>
                 <option value="Pav Cmdo - E2">Pav Cmdo - E2</option>
@@ -86,42 +89,42 @@
         <div class="form-row" display block ruby>
             <div class="form-inline col-md-6">
                 <label for="diaSaida">Data de saída:</label>
-                <input type="date" id="diaSaida" name="DataSaida">
+                <input type="date" id="diaSaida" name="DataSaida" required>
             </div>
             <div class="form-inline col-md-6">
                 <label for="horaSaida">Horário de saída:</label>
-                <input type="time" id="horaSaida" name="HorarioSaida">
+                <input type="time" id="horaSaida" name="HorarioSaida" required>
             </div>
         </div>
 
         <div class="form-row" display block ruby>
             <div class="form-inline col-md-6">
                 <label for="diaRetorno">Data de retorno:</label>
-                <input type="date" id="diaRet" name="DataRetorno">
+                <input type="date" id="diaRet" name="DataRetorno" required>
             </div>
             <div class="form-inline col-md-6">
                 <label for="horaRetorno">Horário de retorno: </label>
-                <input type="time" id="horaRet" name="HorarioRetorno">
+                <input type="time" id="horaRet" name="HorarioRetorno" required>
             </div>
         </div>
 
         <div class="form-row" display block ruby>
             <div class="form-group col-md-6">
                 <label for="inputEspera">Local de espera</label>
-                <input type="text" class="form-control" id="inputEspera" placeholder="Local de espera" name="Local">
+                <input type="text" class="form-control" id="inputEspera" placeholder="Local de espera" name="Local" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputDestino">Destino</label>
-                <input type="text" class="form-control" id="inputDestino" placeholder="Destino" name="Destino">
+                <input type="text" class="form-control" id="inputDestino" placeholder="Destino" name="Destino" required>
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassageiros">Passageiros</label>
-            <input type="number" class="form-control" id="inputQtdPass" placeholder="X" name="QtdPassageiros">
+            <input type="number" class="form-control" id="inputQtdPass" placeholder="X" name="QtdPassageiros" required>
         </div>
         <p>
             <label>Tipo de Viatura</label>
-            <select id="TipoViatura" name="TipoViatura" class="form-control form-control-sm">
+            <select id="TipoViatura" name="TipoViatura" class="form-control form-control-sm" required>
                 <option value="Operacional">Operacional</option>
                 <option value="Administrativa">Administrativa</option>
             </select>

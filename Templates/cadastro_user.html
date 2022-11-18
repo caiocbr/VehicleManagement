@@ -13,6 +13,9 @@
             {% endif %}
         </div>
         <div style="display: inline-flex; margin-right: 20px; font-size: 22; font-family: century-gothic;">
+            {% if role != "Regular" %}
+                <a class="nav-link" href="http://localhost:8000/pages/signup/user">Cadastro</a>
+            {% endif %}
             <a class="nav-link" href="http://localhost:8000/pages/logout">Logout</a>
         </div>
     </nav>
@@ -22,24 +25,27 @@
         <legend>Cadastro de Usuários</legend>
             <div class="form-group">
                 <label for="inputModelo">Nome de Guerra</label>
-                <input type="text" class="form-control" id="inputModelo" placeholder="Nome" name="Nome">
+                <input type="text" class="form-control" id="inputModelo" placeholder="Nome" name="Name">
             </div>
             <div class="form-group">
                 <label for="cpf">CPF</label>
-                <input type="text" class="form-control" id="inputCPF" name="cpf" placeholder="000.000.000-00">
+                <input type="text" class="form-control" id="inputCPF" name="CPF" placeholder="000.000.000-00">
             </div>
         <div class="form-group">
         <label for="exampleInputUser">Usuário</label>
-                  <input type="text" name="username" class="form-control" id="exampleInputUser" placeholder="Insira o usuário">
+                  <input type="text" name="Username" class="form-control" id="exampleInputUser" name="Username" placeholder="Insira o usuário">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="InputPassword1" placeholder="Password">
+            <input type="password" class="form-control" id="InputPassword1" placeholder="Password" name="Password" required>
         </div>
-
-
-        <p>{{ result }}</p>
-
+        <p>
+            <label for="inputRole">Tipo de Usuário</label>
+            <select class="form-control form-control-sm" name="Role" required>
+                <option>Regular</option>
+                <option>Garage</option>
+            </select>
+        </p>
         <div class="button">
             <button id="SignUpButton" class="btn btn-success">Cadastrar</button>
         </div>

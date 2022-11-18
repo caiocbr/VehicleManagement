@@ -132,6 +132,21 @@ class User(BaseModel):
     class Config:
         orm_mode = True
 
+class SignUpUserForm():
+    def __init__(
+        self,
+        Username: str = Form(...),
+        Password: str = Form(...),
+        Name: str = Form(...),
+        CPF: str = Form(...),
+        Role: str = Form(...)
+    ):
+        self.Username = Username
+        self.Password = Password
+        self.Name = Name
+        self.CPF = CPF
+        self.Role = Role
+
 class Token(BaseModel):
     access_token: str
 

@@ -19,8 +19,7 @@ templates = Jinja2Templates(directory="Templates")
 async def home(request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None:
-        print("http://" + main.IP + "/pages/login")
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -47,13 +46,13 @@ async def authentication(request: Request, response: Response, username: Union[s
     response.set_cookie('access_token', access_token, auth_functions.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
                         auth_functions.ACCESS_TOKEN_EXPIRE_MINUTES * 60, '/', None, False, True, 'lax')
 
-    response = RedirectResponse("http://" + main.IP + "/pages/home", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/home", status_code=303)
     response.set_cookie(key="access_token", value=access_token)
     return response
 
 @router.get("/logout", response_class=HTMLResponse)
 async def logout(response: Response):
-    response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
     response.delete_cookie("access_token")
     return response
 
@@ -61,7 +60,7 @@ async def logout(response: Response):
 async def signup_vehicles(request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -71,7 +70,7 @@ async def signup_vehicles(request: Request, db: Session = Depends(get_db)):
 async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleForm = Depends(), db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -79,7 +78,7 @@ async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleFo
     if vehicle == None:
         return templates.TemplateResponse("cadastro_vtr.html", {"request": requestVehicle, "result": "Erro no cadastro de veículo!", "role": user.Role})
     
-    response = RedirectResponse("http://" + main.IP + "/pages/vehicles", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/vehicles", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
 
@@ -87,7 +86,7 @@ async def signup_vehicles_bd(request: Request, requestVehicle: schemas.VehicleFo
 async def request_vehicles(request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None:
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -97,13 +96,13 @@ async def request_vehicles(request: Request, db: Session = Depends(get_db)):
 def solicitation_vehicle(request: Request, requestVehicle: schemas.RequestVehicleForm = Depends(), db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None:
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
         
     crud.insert_request_vehicle(db, requestVehicle, user.Username)
 
-    response = RedirectResponse("http://" + main.IP + "/pages/solicitations", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/solicitations/Pendente", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
 
@@ -114,7 +113,7 @@ async def view_solicitations(request: Request, status: str, db: Session = Depend
 
     user = auth_functions.verify_user(db, request)
     if user == None:
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -140,7 +139,7 @@ async def view_solicitations(request: Request, status: str, db: Session = Depend
 async def view_solicitation_details(id: int, request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None:
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -157,7 +156,7 @@ async def view_solicitation_details(id: int, request: Request, db: Session = Dep
 async def view_solicitation_details(id: int, status: str, request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -173,7 +172,7 @@ async def view_solicitation_details(id: int, status: str, request: Request, db: 
                 crud.change_status_request_vehicle(db, solicitation.Id, "Rejeitado")
 
 
-    response = RedirectResponse("http://" + main.IP + "/pages/solicitations", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/solicitations/Todos", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
 
@@ -181,7 +180,7 @@ async def view_solicitation_details(id: int, status: str, request: Request, db: 
 async def show_vehicles(request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -194,7 +193,7 @@ async def show_vehicles(request: Request, db: Session = Depends(get_db)):
 async def show_vehicle_details(request: Request, placa: str, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
@@ -205,23 +204,37 @@ async def show_vehicle_details(request: Request, placa: str, db: Session = Depen
 async def change_status_vehicle(request: Request, placa: str, status: schemas.VehicleStatusForm = Depends(), db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
     if user == None or user.Role == "Regular":
-        response = RedirectResponse("http://" + main.IP + "/pages/login", status_code=303)
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
     vehicle = crud.get_vehicle_by_plaque(db, placa)
     crud.change_status_vehicle(db, vehicle.Id, status.Status)
 
-    response = RedirectResponse("http://" + main.IP + "/pages/vehicles", status_code=303)
+    response = RedirectResponse("http://localhost:8000/pages/vehicles", status_code=303)
     response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
     return response
 
 @router.get("/signup/user", response_class=HTMLResponse)
 async def home(request: Request, db: Session = Depends(get_db)):
     user = auth_functions.verify_user(db, request)
-    if user == None or user.Role != "Admin":
+    if user == None or user.Role == "Regular":
         response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
         response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
         return response
 
     return templates.TemplateResponse("cadastro_user.html", {"request": request})
+
+@router.post("/signup/user", response_class=HTMLResponse)
+async def home(request: Request, form: schemas.SignUpUserForm = Depends(),db: Session = Depends(get_db)):
+    user = auth_functions.verify_user(db, request)
+    if user == None or user.Role == "Regular":
+        response = RedirectResponse("http://localhost:8000/pages/login", status_code=303)
+        response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+        return response
+
+    auth_functions.create_user(db, schemas.User(Id= 0, Username=form.Username, Password=form.Password, Name=form.Name, CPF=form.CPF, Role=form.Role))
+
+    response = RedirectResponse("http://localhost:8000/pages/home", status_code=303)
+    response.set_cookie(key="access_token", value=request.cookies.get("access_token"))
+    return response
