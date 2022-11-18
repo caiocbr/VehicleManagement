@@ -25,7 +25,7 @@ async function ClickButton(){
         "TipoViatura": tipoViatura,
         "QtdPassageiros": qtdPassageiros
     };
-    response = await fetch('http://localhost:8000/vehicle/query', {
+    response = await fetch('http://10.80.4.55:8000/vehicle/query', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
